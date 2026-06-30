@@ -618,3 +618,66 @@ export const getPolicyStatus = (validUntil: string): { label: string; color: str
 export const generateId = (prefix: string = ""): string => {
   return `${prefix}${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 };
+
+const STORAGE_KEYS_NOTIFICATIONS = "policy_notifications";
+
+export interface Notification {
+  id: string;
+  title: string;
+  content?: string;
+  type: "info" | "policy" | "warning" | "success";
+  isRead: boolean;
+  relatedPolicyId?: string;
+  createdAt: string;
+}
+
+export const notificationStorage = {
+  getAll: (): Notification[] => {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS_NOTIFICATIONS);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  getUnreadCount: (): number => {
+    return notificationStorage.getAll().filter((n) => !n.isRead).length;
+  },
+
+  add: (notification: Omit<Notification, "id" | "createdAt" | "isRead">): void => {
+    const notifications = notificationStorage.getAll();
+    notifications.unshift({
+      ...notification,
+      id: generateId("notif_"),
+      createdAt: new Date().toISOString(),
+      isRead: false,
+    });
+    localStorage.setItem(STORAGE_KEYS_NOTIFICATIONS, JSON.stringify(notifications));
+  },
+
+  markAsRead: (id: string): void => {
+    const notifications = notificationStorage.getAll();
+    const index = notifications.findIndex((n) => n.id === id);
+    if (index !== -1) {
+      notifications[index].isRead = true;
+      localStorage.setItem(STORAGE_KEYS_NOTIFICATIONS, JSON.stringify(notifications));
+    }
+  },
+
+  markAllAsRead: (): void => {
+    const notifications = notificationStorage.getAll();
+    notifications.forEach((n) => (n.isRead = true));
+    localStorage.setItem(STORAGE_KEYS_NOTIFICATIONS, JSON.stringify(notifications));
+  },
+
+  delete: (id: string): void => {
+    const notifications = notificationStorage.getAll();
+    const filtered = notifications.filter((n) => n.id !== id);
+    localStorage.setItem(STORAGE_KEYS_NOTIFICATIONS, JSON.stringify(filtered));
+  },
+
+  clear: (): void => {
+    localStorage.removeItem(STORAGE_KEYS_NOTIFICATIONS);
+  },
+};

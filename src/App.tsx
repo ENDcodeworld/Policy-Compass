@@ -11,6 +11,7 @@ import Applications from "@/pages/Applications";
 import Login from "@/pages/Login";
 import Profile from "@/pages/Profile";
 import Subscriptions from "@/pages/Subscriptions";
+import Notifications from "@/pages/Notifications";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/applications" element={<Applications />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

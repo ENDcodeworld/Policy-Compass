@@ -54,3 +54,14 @@ coverage/
 
 # Misc
 .trae/
+
+# Database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+server/data.db
+server/data.db-*
+
+# Server node_modules
+server/node_modules/

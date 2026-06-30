@@ -42,45 +42,130 @@
 
 ---
 
+## 🏗️ 技术架构
+
+### 项目结构
+
+```
+.
+├── frontend/              # 前端 (React + TypeScript + Vite)
+├── server/                # 后端 (Express + SQLite + JWT)
+│   ├── src/
+│   │   ├── routes/        # API路由
+│   │   ├── middleware/    # 中间件
+│   │   ├── db/            # 数据库
+│   │   └── index.js       # 服务入口
+│   ├── data/              # 数据文件
+│   └── package.json
+├── android/               # Android原生项目
+└── scripts/               # 工具脚本
+```
+
+### 技术栈
+
+| 技术 | 版本 | 用途 |
+|-----|------|------|
+| React | 18.3 | UI框架 |
+| TypeScript | 5.8 | 类型安全 |
+| Vite | 6.x | 构建工具 |
+| TailwindCSS | 3.4 | CSS框架 |
+| Express | 4.x | 后端框架 |
+| SQLite | - | 数据库 (better-sqlite3) |
+| JWT | 9.x | 身份认证 |
+| React Router | 7.x | 路由管理 |
+| Zustand | 5.x | 状态管理 |
+| Capacitor | 8.x | 跨平台打包 |
+| Lucide React | 0.511 | 图标库 |
+
+---
+
 ## 🚀 快速开始
 
-### 环境要求
-
-- Node.js >= 18
-- pnpm >= 8
-- Java 21（构建Android APK需要）
-- Android SDK（构建Android APK需要）
-
-### 安装依赖
+### 前端开发
 
 ```bash
+# 安装依赖
 pnpm install
-```
 
-### 开发模式
-
-```bash
+# 开发模式
 pnpm dev
-```
 
-访问 http://localhost:5173
-
-### 生产构建
-
-```bash
+# 生产构建
 pnpm build
-```
 
-### 预览构建结果
-
-```bash
+# 预览构建结果
 pnpm preview
 ```
 
-### 类型检查
+### 后端开发
 
 ```bash
-pnpm check
+# 进入后端目录
+cd server
+
+# 安装依赖
+npm install
+
+# 初始化数据库并导入政策数据
+node src/db/init.js
+node src/db/import-policies.js
+
+# 启动开发服务
+npm run dev
+
+# 或直接启动
+npm start
+```
+
+后端服务默认运行在 http://localhost:3001
+
+### API接口
+
+**健康检查**
+```
+GET /api/health
+```
+
+**认证接口**
+```
+POST /api/auth/register     # 注册
+POST /api/auth/login        # 登录
+GET  /api/auth/me           # 获取当前用户
+PUT  /api/auth/me           # 更新用户信息
+PUT  /api/auth/password     # 修改密码
+```
+
+**政策接口**
+```
+GET  /api/policies              # 政策列表（支持筛选、分页、搜索）
+GET  /api/policies/:id          # 政策详情
+GET  /api/policies/meta/cities  # 获取城市列表
+GET  /api/policies/meta/categories  # 获取分类列表
+```
+
+**用户数据接口（需登录）**
+```
+GET    /api/user/favorites       # 收藏列表
+POST   /api/user/favorites       # 添加收藏
+DELETE /api/user/favorites/:id   # 取消收藏
+
+GET    /api/user/applications    # 申请列表
+POST   /api/user/applications    # 新增申请
+PUT    /api/user/applications/:id # 更新申请
+DELETE /api/user/applications/:id # 删除申请
+
+GET    /api/user/subscriptions   # 订阅列表
+POST   /api/user/subscriptions   # 添加订阅
+DELETE /api/user/subscriptions   # 取消订阅
+```
+
+**通知接口（需登录）**
+```
+GET    /api/notifications              # 通知列表
+GET    /api/notifications/unread-count # 未读数量
+PUT    /api/notifications/:id/read     # 标记已读
+PUT    /api/notifications/read-all     # 全部已读
+DELETE /api/notifications/:id          # 删除通知
 ```
 
 ---

@@ -14,9 +14,10 @@ import {
   BookOpen,
   ClipboardList,
   User,
+  Bell,
 } from "lucide-react";
 import { useAppStore } from "@/store/useAppStore";
-import { userStorage } from "@/utils/storage";
+import { userStorage, notificationStorage } from "@/utils/storage";
 
 const navLinks = [
   { path: "/", label: "首页", icon: Home },
@@ -31,9 +32,16 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useAppStore();
   const [user, setUser] = useState<any>(null);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     setUser(userStorage.getCurrentUser());
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (userStorage.getCurrentUser()) {
+      setUnreadCount(notificationStorage.getUnreadCount());
+    }
   }, [location.pathname]);
 
   const userLinks = [
@@ -103,6 +111,21 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            {userStorage.isLoggedIn() && (
+              <Link
+                to="/notifications"
+                className="relative p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                title="消息通知"
+              >
+                <Bell className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                    {unreadCount > 99 ? "99+" : unreadCount}
+                  </span>
+                )}
+              </Link>
+            )}
+            
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
