@@ -2,6 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import db from '../db/init.js';
 import { generateToken, authMiddleware } from '../middleware/auth.js';
+import { sendWelcomeNotification } from '../utils/pushService.js';
 
 const router = Router();
 
@@ -30,6 +31,9 @@ router.post('/register', (req, res) => {
 
   const user = db.prepare('SELECT id, username, email, nickname, avatar, created_at FROM users WHERE id = ?').get(result.lastInsertRowid);
   const token = generateToken(user);
+
+  // 发送欢迎通知
+  sendWelcomeNotification(user.id);
 
   res.json({
     message: '注册成功',

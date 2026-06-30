@@ -12,6 +12,8 @@ import Login from "@/pages/Login";
 import Profile from "@/pages/Profile";
 import Subscriptions from "@/pages/Subscriptions";
 import Notifications from "@/pages/Notifications";
+import PolicyCompare from "@/pages/PolicyCompare";
+import Admin from "@/pages/Admin";
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/compare" element={<PolicyCompare />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

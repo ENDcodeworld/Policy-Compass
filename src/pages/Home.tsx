@@ -381,12 +381,14 @@ export default function Home() {
             <p className="text-slate-500">全方位帮助你了解和申请政策福利</p>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { icon: "❓", title: "常见问题", desc: "解答你的疑惑", path: "/faq", color: "blue" },
-              { icon: "📖", title: "申请攻略", desc: "经验分享指南", path: "/articles", color: "purple" },
-              { icon: "📋", title: "申请进度", desc: "追踪你的申请", path: "/applications", color: "emerald" },
-              { icon: "🔔", title: "政策订阅", desc: "不错过新政策", path: "/subscriptions", color: "amber" },
+              { icon: "❓", title: "常见问题", desc: "解答你的疑惑", path: "/faq" },
+              { icon: "📖", title: "申请攻略", desc: "经验分享指南", path: "/articles" },
+              { icon: "📋", title: "申请进度", desc: "追踪你的申请", path: "/applications" },
+              { icon: "🔔", title: "政策订阅", desc: "不错过新政策", path: "/subscriptions" },
+              { icon: "⚖️", title: "政策对比", desc: "多城市横向对比", path: "/compare" },
+              { icon: "⚙️", title: "管理后台", desc: "政策数据管理", path: "/admin" },
             ].map((item, idx) => (
               <Link
                 key={item.title}

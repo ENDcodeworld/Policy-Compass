@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import db from './db/init.js';
+import { initScheduledTasks } from './utils/pushService.js';
 import authRoutes from './routes/auth.js';
 import policyRoutes from './routes/policies.js';
 import userRoutes from './routes/user.js';
@@ -50,7 +51,12 @@ app.listen(PORT, () => {
   console.log(`\n🚀 政策指南针后端服务已启动`);
   console.log(`📍 服务地址: http://localhost:${PORT}`);
   console.log(`🔍 健康检查: http://localhost:${PORT}/api/health`);
-  console.log(`📁 数据库已连接\n`);
+  console.log(`📁 数据库已连接`);
+  
+  // 启动定时任务
+  initScheduledTasks();
+  
+  console.log(``);
 });
 
 export default app;
